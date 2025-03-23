@@ -13,11 +13,17 @@ Table users (
 Table envelopes (
     id INT PRIMARY KEY,
     name VARCHAR(255),
-    amount DECIMAL(10, 2),
     user_id INT,
-    date DATE, 
     recurring BOOLEAN,
     FOREIGN KEY (user_id) REFERENCES users(id)
+)
+
+Table envelope_amounts (
+    id INT PRIMARY KEY,
+    envelope_id INT,
+    amount DECIMAL(10,2),
+    date DATE,
+    FOREIGN KEY (envelope_id) REFERENCES envelopes(id)
 )
 
 Table entries (
@@ -33,8 +39,6 @@ Table categories (
     id INT PRIMARY KEY,
     name VARCHAR(255),
     description VARCHAR(255),
-    user_id INT,
-    FOREIGN KEY (user_id) REFERENCES users(id)
 )
 
 Table shared_envelopes (
