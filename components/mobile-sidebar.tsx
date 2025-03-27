@@ -6,18 +6,24 @@ import { usePathname } from "next/navigation";
 import { 
   Menu, 
   X, 
-  LayoutDashboard, 
-  Wallet, 
-  PieChart, 
-  Share2, 
   UserCircle,
-  Users
+  User,
+  Settings,
+  LogOut,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { mainNavItems, sharingNavItems } from "@/lib/navigation";
 
 export const MobileSidebar = () => {
   const pathname = usePathname();
@@ -42,37 +48,6 @@ export const MobileSidebar = () => {
     return false;
   };
 
-  const mainNavItems = [
-    {
-      title: "Dashboard",
-      href: "/dashboard",
-      icon: <LayoutDashboard className="h-5 w-5" />,
-    },
-    {
-      title: "Envelopes",
-      href: "/envelopes",
-      icon: <Wallet className="h-5 w-5" />,
-    },
-    {
-      title: "Categories",
-      href: "/categories",
-      icon: <PieChart className="h-5 w-5" />,
-    },
-  ];
-
-  const sharingNavItems = [
-    {
-      title: "Shared with me",
-      href: "/sharing/shared-with-me",
-      icon: <Users className="h-5 w-5" />,
-    },
-    {
-      title: "My shares",
-      href: "/sharing/my-shares",
-      icon: <Share2 className="h-5 w-5" />,
-    },
-  ];
-
   return (
     <>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -92,14 +67,15 @@ export const MobileSidebar = () => {
               >
                 Envel
               </Link>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={() => setIsOpen(false)}
-              >
-                <X className="h-5 w-5" />
-                <span className="sr-only">Close menu</span>
-              </Button>
+              <SheetTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                >
+                  <X className="h-5 w-5" />
+                  <span className="sr-only">Close menu</span>
+                </Button>
+              </SheetTrigger>
             </div>
             <div className="flex-1 overflow-auto">
               <nav className="flex flex-col gap-1 p-2">
@@ -140,26 +116,42 @@ export const MobileSidebar = () => {
                 ))}
               </nav>
             </div>
-            <div className="mt-auto border-t p-4">
-              <div className="flex items-center gap-x-3">
-                <Avatar className="h-9 w-9">
-                  <AvatarImage src={user.image || ""} />
-                  <AvatarFallback>
-                    <UserCircle className="h-6 w-6" />
-                  </AvatarFallback>
-                </Avatar>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium leading-none">{user.name}</p>
-                  <Link 
-                    href="/profile"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <Button variant="ghost" size="sm" className="h-8 px-2">
-                      Profile
-                    </Button>
-                  </Link>
-                </div>
-              </div>
+            <div className="mt-auto p-4 border-t">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="flex items-center gap-x-3 cursor-pointer">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={user.image || ""} alt={user.name} />
+                      <AvatarFallback className="bg-primary/10">
+                        <UserCircle className="h-5 w-5 text-primary" />
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <p className="text-sm font-medium truncate">{user.name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                    </div>
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="cursor-pointer flex items-center">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/settings" className="cursor-pointer flex items-center">
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="cursor-pointer">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </SheetContent>

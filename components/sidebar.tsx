@@ -6,13 +6,10 @@ import { usePathname } from "next/navigation";
 import { 
   ChevronLeft, 
   ChevronRight, 
-  LayoutDashboard, 
-  Wallet, 
-  PieChart, 
-  Share2, 
   UserCircle,
-  Users,
-  TicketCheck
+  User,
+  Settings,
+  LogOut
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -20,6 +17,8 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { mainNavItems, sharingNavItems } from "@/lib/navigation";
 
 interface SidebarProps {
   children?: ReactNode;
@@ -75,42 +74,6 @@ export const Sidebar = ({ children }: SidebarProps) => {
     
     return false;
   };
-
-  const mainNavItems = [
-    {
-      title: "Dashboard",
-      href: "/dashboard",
-      icon: <LayoutDashboard className="h-5 w-5" />,
-    },
-    {
-      title: "Envelopes",
-      href: "/envelopes",
-      icon: <Wallet className="h-5 w-5" />,
-    },
-    {
-      title: "Entries",
-      href: "/entries",
-      icon: <TicketCheck className="h-5 w-5" />,
-    },
-    {
-      title: "Categories",
-      href: "/categories",
-      icon: <PieChart className="h-5 w-5" />,
-    },
-  ];
-
-  const sharingNavItems = [
-    {
-      title: "Shared with me",
-      href: "/sharing/shared-with-me",
-      icon: <Users className="h-5 w-5" />,
-    },
-    {
-      title: "My shares",
-      href: "/sharing/my-shares",
-      icon: <Share2 className="h-5 w-5" />,
-    },
-  ];
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -197,21 +160,47 @@ export const Sidebar = ({ children }: SidebarProps) => {
             "flex items-center",
             isCollapsed ? "justify-center" : "gap-x-3"
           )}>
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={user.image || ""} />
-              <AvatarFallback>
-                <UserCircle className="h-5 w-5" />
-              </AvatarFallback>
-            </Avatar>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-9 w-9 rounded-full p-0">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={user.image || ""} alt={user.name} />
+                    <AvatarFallback className="bg-primary/10">
+                      <UserCircle className="h-5 w-5 text-primary" />
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <div className="flex flex-col space-y-1 p-2">
+                  <p className="text-sm font-medium">{user.name}</p>
+                  <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile" className="cursor-pointer flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/settings" className="cursor-pointer flex items-center">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Settings</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="cursor-pointer">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             
             {!isCollapsed && (
-              <div className="space-y-1">
-                <p className="text-sm font-medium">{user.name}</p>
-                <Link href="/profile">
-                  <Button variant="ghost" size="sm" className="h-7 px-2">
-                    Profile
-                  </Button>
-                </Link>
+              <div className="flex flex-col">
+                <p className="text-sm font-medium truncate">{user.name}</p>
+                <p className="text-xs text-muted-foreground truncate">{user.email}</p>
               </div>
             )}
           </div>
