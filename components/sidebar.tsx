@@ -10,9 +10,9 @@ import {
   Wallet, 
   PieChart, 
   Share2, 
-  Settings, 
   UserCircle,
-  Users
+  Users,
+  TicketCheck
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -88,6 +88,11 @@ export const Sidebar = ({ children }: SidebarProps) => {
       icon: <Wallet className="h-5 w-5" />,
     },
     {
+      title: "Entries",
+      href: "/entries",
+      icon: <TicketCheck className="h-5 w-5" />,
+    },
+    {
       title: "Categories",
       href: "/categories",
       icon: <PieChart className="h-5 w-5" />,
@@ -132,14 +137,14 @@ export const Sidebar = ({ children }: SidebarProps) => {
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-[-20px] top-7 h-8 w-8 rounded-full border bg-background hidden md:flex z-40 shadow-sm"
+          className="absolute right-[-12px] top-7 h-8 w-8 rounded-full border bg-background hidden md:flex items-center justify-center z-40 shadow-sm"
           onClick={toggleSidebar}
           title="Toggle sidebar (Alt+S)"
         >
           {isCollapsed ? (
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4 text-foreground" />
           ) : (
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4 text-foreground" />
           )}
           <span className="sr-only">
             {isCollapsed ? "Expand" : "Collapse"}

@@ -28,10 +28,10 @@ export default function EntryDetailPage({ params }: { params: Promise<{ id: stri
   const router = useRouter();
   const [entry, setEntry] = useState<Entry | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  
+  const p = use(params);
+
   // Load entry data
   useEffect(() => {
-    const p = use(params);
     const entryId = parseInt(p.id);
     const foundEntry = mockEntries.find(e => e.id === entryId);
     
