@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Envel - Modern Envelope Budgeting App
+
+Envel is a modern, user-friendly envelope budgeting application built with Next.js 15, React 19, and TypeScript. It helps users manage their finances using the envelope budgeting method with a beautiful, intuitive interface.
+
+## Features
+
+- 🎯 Envelope-based budgeting system
+- 🔄 Recurring envelope support
+- 👥 Share envelopes with other users
+- 🔐 Secure authentication with NextAuth.js
+- 🌓 Light/Dark mode support
+- 📱 Responsive design
+- ⚡ Built with performance in mind using Turbopack
+
+## Tech Stack
+
+- **Framework:** Next.js 15
+- **Language:** TypeScript
+- **UI Library:** React 19
+- **Styling:** TailwindCSS
+- **UI Components:** Radix UI
+- **Form Handling:** React Hook Form with Zod validation
+- **Authentication:** NextAuth.js
+- **Date Handling:** date-fns
+- **Theme:** next-themes
+- **Notifications:** Sonner
+- **Icons:** Lucide React
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js 18.17 or later
+- Bun (recommended) or npm
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/envel.git
+   cd envel
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Install dependencies:
+   ```bash
+   bun install
+   # or
+   npm install
+   ```
 
-## Learn More
+3. Set up your environment variables:
+   Create a `.env.local` file in the root directory and add the following:
+   ```
+   # Add your environment variables here
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. Run the development server:
+   ```bash
+   bun run dev
+   # or
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Database Schema
 
-## Deploy on Vercel
+The application uses a relational database with the following main tables:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `users`: User account information
+- `envelopes`: Budget envelopes
+- `envelope_amounts`: Amount allocations for envelopes
+- `entries`: Transaction entries
+- `categories`: Transaction categories
+- `shared_envelopes`: Shared envelope permissions
+- `share_requests`: Envelope sharing requests
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For detailed schema information, see [database.md](database.md).
+
+## Development
+
+- `bun run dev`: Start the development server with Turbopack
+- `bun run build`: Build the application for production
+- `bun run start`: Start the production server
+- `bun run lint`: Run ESLint for code linting
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
