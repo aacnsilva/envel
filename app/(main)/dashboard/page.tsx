@@ -90,12 +90,12 @@ export default function DashboardPage() {
   }>>([]);
   
   // Format date range for display
-  const monthStart = startOfMonth(selectedMonth);
-  const monthEnd = endOfMonth(selectedMonth);
   const dateRangeDisplay = format(selectedMonth, "MMMM yyyy");
   
   // Calculate envelope summaries when month changes
   useEffect(() => {
+    const monthStart = startOfMonth(selectedMonth);
+    const monthEnd = endOfMonth(selectedMonth);
     // Filter entries for the selected month
     const filtered = mockRecentEntries.filter(
       entry => entry.date >= monthStart && entry.date <= monthEnd
@@ -161,7 +161,7 @@ export default function DashboardPage() {
       });
 
     setEnvelopeSummaries(summaries);
-  }, [setEnvelopeSummaries]);
+  }, [selectedMonth]);
 
   // Calculate total budget and used amounts
   const totalBudget = envelopeSummaries.reduce((sum, env) => sum + env.amount, 0);
