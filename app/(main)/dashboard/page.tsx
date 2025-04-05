@@ -161,7 +161,7 @@ export default function DashboardPage() {
       });
 
     setEnvelopeSummaries(summaries);
-  }, [selectedMonth, monthStart, monthEnd]);
+  }, [setEnvelopeSummaries]);
 
   // Calculate total budget and used amounts
   const totalBudget = envelopeSummaries.reduce((sum, env) => sum + env.amount, 0);
