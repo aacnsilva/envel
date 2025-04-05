@@ -15,71 +15,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"; 
 import { Calendar } from "@/components/ui/calendar";
-
-// This would come from the API in a real app - updated to match new database schema
-const mockEnvelopes = [
-  { 
-    id: 1, 
-    name: "Groceries", 
-    recurring: true,
-    amounts: [
-      { id: 1, amount: 500, date: new Date("2025-03-01") },
-      { id: 2, amount: 550, date: new Date("2025-04-01") },
-    ]
-  },
-  { 
-    id: 2, 
-    name: "Entertainment", 
-    recurring: true,
-    amounts: [
-      { id: 3, amount: 200, date: new Date("2025-03-01") },
-      { id: 4, amount: 250, date: new Date("2025-04-01") },
-    ]
-  },
-  { 
-    id: 3, 
-    name: "Transportation", 
-    recurring: true,
-    amounts: [
-      { id: 5, amount: 300, date: new Date("2025-03-01") },
-      { id: 6, amount: 300, date: new Date("2025-04-01") },
-    ]
-  },
-  { 
-    id: 4, 
-    name: "Dining Out", 
-    recurring: false,
-    amounts: [
-      { id: 7, amount: 400, date: new Date("2025-03-01") },
-    ]
-  },
-];
-
-// Mock used amounts - would be calculated from entries in a real app
-const mockUsedAmounts = [
-  { envelopeId: 1, date: new Date("2025-03-01"), used: 250 },
-  { envelopeId: 1, date: new Date("2025-04-01"), used: 100 },
-  { envelopeId: 2, date: new Date("2025-03-01"), used: 150 },
-  { envelopeId: 2, date: new Date("2025-04-01"), used: 50 },
-  { envelopeId: 3, date: new Date("2025-03-01"), used: 100 },
-  { envelopeId: 3, date: new Date("2025-04-01"), used: 75 },
-  { envelopeId: 4, date: new Date("2025-03-01"), used: 320 },
-];
-
-// This would come from the API in a real app
-const mockRecentEntries = [
-  { id: 1, amount: 50, category: "Dining", envelope: "Dining Out", date: new Date("2025-03-20") },
-  { id: 2, amount: 120, category: "Food", envelope: "Groceries", date: new Date("2025-03-19") },
-  { id: 3, amount: 40, category: "Fun", envelope: "Entertainment", date: new Date("2025-03-18") },
-  { id: 4, amount: 65, category: "Gas", envelope: "Transportation", date: new Date("2025-03-16") },
-  { id: 5, amount: 35, category: "Coffee", envelope: "Dining Out", date: new Date("2025-03-15") },
-];
+import { mockEnvelopes, mockEntries, mockUsedAmounts } from "@/lib/mock-data";
 
 export default function DashboardPage() {
   // State for the selected month
   const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
   const [calendarOpen, setCalendarOpen] = useState(false);
-  const [recentEntries, setRecentEntries] = useState<typeof mockRecentEntries>([]);
+  const [recentEntries, setRecentEntries] = useState<typeof mockEntries>([]);
   const [envelopeSummaries, setEnvelopeSummaries] = useState<Array<{
     id: number;
     name: string;
@@ -97,7 +39,7 @@ export default function DashboardPage() {
     const monthStart = startOfMonth(selectedMonth);
     const monthEnd = endOfMonth(selectedMonth);
     // Filter entries for the selected month
-    const filtered = mockRecentEntries.filter(
+    const filtered = mockEntries.filter(
       entry => entry.date >= monthStart && entry.date <= monthEnd
     );
     setRecentEntries(filtered);
@@ -358,7 +300,7 @@ export default function DashboardPage() {
                     <TableCell className="py-2 px-3 sm:p-4">{format(entry.date, "MMM d, yyyy")}</TableCell>
                     <TableCell className="py-2 px-3 sm:p-4">${entry.amount.toFixed(2)}</TableCell>
                     <TableCell className="py-2 px-3 sm:p-4 hidden sm:table-cell">{entry.category}</TableCell>
-                    <TableCell className="py-2 px-3 sm:p-4 hidden sm:table-cell">{entry.envelope}</TableCell>
+                    <TableCell className="py-2 px-3 sm:p-4 hidden sm:table-cell">{entry.envelopeId}</TableCell>
                     <TableCell className="py-2 px-3 sm:p-4 text-right">
                       <Link href={`/entries/${entry.id}`}>
                         <Button variant="ghost" size="sm" className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3">
