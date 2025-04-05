@@ -68,7 +68,7 @@ const mockUsedAmounts = [
 ];
 
 export default function SharedWithMePage() {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentMonth] = useState(new Date());
   const [sharedEnvelopeSummaries, setSharedEnvelopeSummaries] = useState<Array<{
     id: number;
     name: string;

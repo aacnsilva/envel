@@ -75,7 +75,7 @@ const mockMySharedEnvelopes = [
 export default function SharingPage() {
   const [sharedWithMe, setSharedWithMe] = useState(mockSharedWithMe);
   const [pendingRequests, setPendingRequests] = useState(mockPendingRequests);
-  const [mySharedEnvelopes, setMySharedEnvelopes] = useState(mockMySharedEnvelopes);
+  const [mySharedEnvelopes] = useState(mockMySharedEnvelopes);
   const [activeTab, setActiveTab] = useState("shared-with-me");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -162,7 +162,7 @@ export default function SharingPage() {
                 <Share2 className="h-12 w-12 text-muted-foreground mb-4" />
                 <h3 className="text-xl font-medium">No Shared Envelopes</h3>
                 <p className="text-muted-foreground mt-1">
-                  You don't have any envelopes shared with you yet.
+                  You don&apos;t have any envelopes shared with you yet.
                 </p>
               </CardContent>
             </Card>
@@ -207,7 +207,7 @@ export default function SharingPage() {
                 <Clock className="h-12 w-12 text-muted-foreground mb-4" />
                 <h3 className="text-xl font-medium">No Pending Requests</h3>
                 <p className="text-muted-foreground mt-1">
-                  You don't have any pending share requests.
+                  You don&apos;t have any pending share requests.
                 </p>
               </CardContent>
             </Card>
@@ -266,7 +266,7 @@ export default function SharingPage() {
                 <User className="h-12 w-12 text-muted-foreground mb-4" />
                 <h3 className="text-xl font-medium">Not Sharing Yet</h3>
                 <p className="text-muted-foreground mt-1">
-                  You haven't shared any of your envelopes yet.
+                  You haven&apos;t shared any of your envelopes yet.
                 </p>
               </CardContent>
             </Card>

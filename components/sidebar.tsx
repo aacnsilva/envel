@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ReactNode, useEffect } from "react";
+import { useState, ReactNode, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
@@ -29,9 +29,9 @@ export const Sidebar = ({ children }: SidebarProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   
   // Toggle sidebar collapsed state
-  const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed);
-  };
+  const toggleSidebar = useCallback(() => {
+    setIsCollapsed(prev => !prev);
+  }, []);
   
   // Handle keyboard shortcut (Alt+S)
   useEffect(() => {
@@ -45,7 +45,7 @@ export const Sidebar = ({ children }: SidebarProps) => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isCollapsed]);
+  }, [toggleSidebar]);
   
   // Emit event when collapsed state changes
   useEffect(() => {

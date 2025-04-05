@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { mockEnvelopes, mockUsedAmounts } from "@/lib/mock-data";
 
 export default function EnvelopesPage() {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentMonth] = useState(new Date());
   const [envelopeSummaries, setEnvelopeSummaries] = useState<Array<{
     id: number;
     name: string;

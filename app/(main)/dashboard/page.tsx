@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PlusCircle, ChevronLeft, ChevronRight, CalendarIcon } from "lucide-react";
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, isWithinInterval } from "date-fns";
+import { format, addMonths, subMonths, startOfMonth, endOfMonth } from "date-fns";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -161,7 +161,7 @@ export default function DashboardPage() {
       });
 
     setEnvelopeSummaries(summaries);
-  }, [selectedMonth]);
+  }, [selectedMonth, monthStart, monthEnd]);
 
   // Calculate total budget and used amounts
   const totalBudget = envelopeSummaries.reduce((sum, env) => sum + env.amount, 0);

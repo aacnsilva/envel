@@ -45,7 +45,7 @@ export default function EntryDetailPage({ params }: { params: Promise<{ id: stri
       // Entry not found - redirect to entries page
       router.push("/entries");
     }
-  }, [params, router]);
+  }, [p.id, router]);
 
   const handleDelete = () => {
     // In a real app, would call API to delete entry

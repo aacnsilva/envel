@@ -74,7 +74,7 @@ export default function EditEntryPage({ params }: { params: Promise<{ id: string
       });
       router.push("/entries");
     }
-  }, [params, router]);
+  }, [p.id, router]);
 
   // Input handlers
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
