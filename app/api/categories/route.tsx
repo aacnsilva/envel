@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createCategory, deleteCategory, getCategories, updateCategory } from "@/services/category";
+import { createCategory, getCategories } from "@/services/category";
 
 export async function GET() {
   const categories = await getCategories();
