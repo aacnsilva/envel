@@ -2,7 +2,6 @@
 
 import useSWR from "swr";
 import { useState } from "react";
-import { mutate } from "swr";
 
 import { PlusCircle, PencilIcon, TrashIcon } from "lucide-react";
 
