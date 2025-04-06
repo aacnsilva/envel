@@ -1,6 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import useSWR from "swr";
+import { useState } from "react";
+import { mutate } from "swr";
+
 import { PlusCircle, PencilIcon, TrashIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -29,8 +32,10 @@ import {
 import { toast } from "sonner";
 import { Category } from "@/lib/types";
 
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
 export default function CategoriesPage() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const { data: categories = [], mutate: mutateCategories } = useSWR<Category[]>("/api/categories", fetcher);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -38,12 +43,6 @@ export default function CategoriesPage() {
   const [editCategory, setEditCategory] = useState<Category | null>(null);
   const [newCategory, setNewCategory] = useState<Omit<Category, "id">>({ name: "", description: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    fetch("/api/categories")
-      .then((res) => res.json())
-      .then((data) => setCategories(data));
-  }, []);
 
   const handleDeleteClick = (id: number) => {
     setDeleteId(id);
@@ -61,15 +60,11 @@ export default function CategoriesPage() {
     setIsSubmitting(true);
     
     try {
-      await new Promise((resolve) => {
-        fetch(`/api/categories/${deleteId}`, {
-          method: "DELETE",
-        }).then(resolve);
+      await fetch(`/api/categories/${deleteId}`, {
+        method: "DELETE",
       });
-      
-      setCategories(categories.filter((cat: Category) => cat.id !== deleteId));
-      
       toast.success("Category deleted successfully");
+      await mutateCategories();
     } catch (error) {
       console.error("Error deleting category:", error);
       toast.error("Failed to delete category");
@@ -89,17 +84,15 @@ export default function CategoriesPage() {
     setIsSubmitting(true);
     
     try {
-      await new Promise((resolve) => {
-        fetch("/api/categories", {
-          method: "POST",
-          body: JSON.stringify(newCategory),
-        }).then(resolve);
+      await fetch("/api/categories", {
+        method: "POST",
+        body: JSON.stringify(newCategory),
       });
       
       toast.success("Category added successfully");
       
       setNewCategory({ name: "", description: "" });
-      setCategories([...categories, newCategory as Category]);
+      await mutateCategories();
     } catch (error) {
       console.error("Error adding category:", error);
       toast.error("Failed to add category");
@@ -118,16 +111,12 @@ export default function CategoriesPage() {
     setIsSubmitting(true);
     
     try {
-      await new Promise((resolve) => {
-        fetch(`/api/categories/${editCategory.id}`, {
-          method: "PUT",
-          body: JSON.stringify(editCategory),
-        }).then(resolve);
+      await fetch(`/api/categories/${editCategory.id}`, {
+        method: "PUT",
+        body: JSON.stringify(editCategory),
       });
       
-      setCategories(categories.map((cat: Category) => 
-        cat.id === editCategory.id ? editCategory : cat
-      ));
+      await mutateCategories();
       
       toast.success("Category updated successfully");
     } catch (error) {
