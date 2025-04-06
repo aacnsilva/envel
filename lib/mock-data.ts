@@ -1,8 +1,21 @@
 // Mock data based on database.md schema
 // This is a centralized location for all mock data in the application
 
+import {
+  Envelope,
+  UsedAmount,
+  Entry,
+  Category,
+  ShareRequest,
+  SharedWithMeEnvelope,
+  PendingShareRequest,
+  MySharedEnvelope,
+  User,
+  SharedEnvelope
+} from './types';
+
 // Envelopes with their amounts
-export const mockEnvelopes = [
+export const mockEnvelopes: Envelope[] = [
   { 
     id: 1, 
     name: "Groceries", 
@@ -78,7 +91,7 @@ export const mockEnvelopes = [
 ];
 
 // Used amounts for each envelope
-export const mockUsedAmounts = [
+export const mockUsedAmounts: UsedAmount[] = [
   { envelopeId: 1, date: new Date("2025-03-01"), used: 250 },
   { envelopeId: 1, date: new Date("2025-04-01"), used: 100 },
   { envelopeId: 2, date: new Date("2025-03-01"), used: 150 },
@@ -98,7 +111,7 @@ export const mockUsedAmounts = [
 ];
 
 // Entries for envelopes
-export const mockEntries = [
+export const mockEntries: Entry[] = [
   { id: 1, amount: 50, date: new Date("2025-03-20"), category: "Produce", note: "Farmers Market", envelopeId: 1 },
   { id: 2, amount: 85, date: new Date("2025-03-15"), category: "Dairy", note: "Weekly shopping", envelopeId: 1 },
   { id: 3, amount: 65, date: new Date("2025-03-10"), category: "Meat", note: "Monthly meat purchase", envelopeId: 1 },
@@ -109,7 +122,7 @@ export const mockEntries = [
 ]; 
 
 // Categories
-export const mockCategories = [
+export const mockCategories: Category[] = [
   { id: 1, name: "Groceries", description: "Food and household supplies" },
   { id: 2, name: "Utilities", description: "Electricity, water, gas, etc." },
   { id: 3, name: "Dining Out", description: "Restaurants and cafes" },
@@ -121,7 +134,7 @@ export const mockCategories = [
 ];
 
 // Mock data for share requests - would come from API in real app
-export const mockRequests = [
+export const mockRequests: ShareRequest[] = [
   { 
     id: 1, 
     envelope_name: "Groceries", 
@@ -157,7 +170,7 @@ export const mockRequests = [
 ];
 
 // Mock data for shared envelopes
-export const mockSharedWithMe = [
+export const mockSharedWithMe: SharedWithMeEnvelope[] = [
   {
     id: 1,
     envelopeName: "Vacation Fund",
@@ -179,7 +192,7 @@ export const mockSharedWithMe = [
 ];
 
 // Mock data for pending share requests
-export const mockPendingRequests = [
+export const mockPendingRequests: PendingShareRequest[] = [
   {
     id: 1,
     envelopeName: "Holiday Gifts",
@@ -199,7 +212,7 @@ export const mockPendingRequests = [
 ];
 
 // Mock data for envelopes I'm sharing
-export const mockMySharedEnvelopes = [
+export const mockMySharedEnvelopes: MySharedEnvelope[] = [
   {
     id: 1,
     envelopeName: "Rental Property",
@@ -219,14 +232,14 @@ export const mockMySharedEnvelopes = [
 ];
 
 // Mock user data - this would come from auth in real app
-export const mockUser = {
+export const mockUser: User = {
   name: "User",
   email: "user@example.com",
   image: null,
 };
 
 // Mock data for shared envelopes - would come from API in real app
-export const mockSharedEnvelopes = [
+export const mockSharedEnvelopes: SharedEnvelope[] = [
   { 
     id: 1, 
     name: "Family Groceries",
