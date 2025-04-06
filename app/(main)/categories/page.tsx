@@ -1,7 +1,6 @@
 "use client";
 
-import { mockCategories } from "@/lib/mock-data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PlusCircle, PencilIcon, TrashIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -28,23 +27,30 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { Category } from "@/lib/types";
 
 export default function CategoriesPage() {
-  const [categories, setCategories] = useState(mockCategories);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
-  const [editCategory, setEditCategory] = useState<typeof mockCategories[0] | null>(null);
-  const [newCategory, setNewCategory] = useState({ name: "", description: "" });
+  const [editCategory, setEditCategory] = useState<Category | null>(null);
+  const [newCategory, setNewCategory] = useState<Omit<Category, "id">>({ name: "", description: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data));
+  }, []);
 
   const handleDeleteClick = (id: number) => {
     setDeleteId(id);
     setIsDeleteDialogOpen(true);
   };
 
-  const handleEditClick = (category: typeof mockCategories[0]) => {
+  const handleEditClick = (category: Category) => {
     setEditCategory({ ...category });
     setIsEditDialogOpen(true);
   };
@@ -55,14 +61,13 @@ export default function CategoriesPage() {
     setIsSubmitting(true);
     
     try {
-      // In a real app, this would be an API call
-      console.log("Deleting category:", deleteId);
+      await new Promise((resolve) => {
+        fetch(`/api/categories/${deleteId}`, {
+          method: "DELETE",
+        }).then(resolve);
+      });
       
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      
-      // Update local state
-      setCategories(categories.filter(cat => cat.id !== deleteId));
+      setCategories(categories.filter((cat: Category) => cat.id !== deleteId));
       
       toast.success("Category deleted successfully");
     } catch (error) {
@@ -84,20 +89,17 @@ export default function CategoriesPage() {
     setIsSubmitting(true);
     
     try {
-      // In a real app, this would be an API call
-      console.log("Adding category:", newCategory);
-      
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      
-      // Update local state
-      const newId = Math.max(...categories.map(c => c.id)) + 1;
-      setCategories([...categories, { id: newId, ...newCategory }]);
+      await new Promise((resolve) => {
+        fetch("/api/categories", {
+          method: "POST",
+          body: JSON.stringify(newCategory),
+        }).then(resolve);
+      });
       
       toast.success("Category added successfully");
       
-      // Reset form
       setNewCategory({ name: "", description: "" });
+      setCategories([...categories, newCategory as Category]);
     } catch (error) {
       console.error("Error adding category:", error);
       toast.error("Failed to add category");
@@ -116,14 +118,14 @@ export default function CategoriesPage() {
     setIsSubmitting(true);
     
     try {
-      // In a real app, this would be an API call
-      console.log("Updating category:", editCategory);
+      await new Promise((resolve) => {
+        fetch(`/api/categories/${editCategory.id}`, {
+          method: "PUT",
+          body: JSON.stringify(editCategory),
+        }).then(resolve);
+      });
       
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      
-      // Update local state
-      setCategories(categories.map(cat => 
+      setCategories(categories.map((cat: Category) => 
         cat.id === editCategory.id ? editCategory : cat
       ));
       
