@@ -8,42 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-
-// Mock data for share requests - would come from API in real app
-const mockRequests = [
-  { 
-    id: 1, 
-    envelope_name: "Groceries", 
-    sender_name: "Jane Doe", 
-    sender_email: "jane@example.com", 
-    status: "pending", 
-    created_at: "2023-03-15" 
-  },
-  { 
-    id: 2, 
-    envelope_name: "Vacation Fund", 
-    sender_name: "John Smith", 
-    sender_email: "john@example.com", 
-    status: "pending", 
-    created_at: "2023-03-14" 
-  },
-  { 
-    id: 3, 
-    envelope_name: "Household", 
-    sender_name: "Mark Wilson", 
-    sender_email: "mark@example.com", 
-    status: "accepted", 
-    created_at: "2023-03-10" 
-  },
-  { 
-    id: 4, 
-    envelope_name: "Entertainment", 
-    sender_name: "Sarah Johnson", 
-    sender_email: "sarah@example.com", 
-    status: "rejected", 
-    created_at: "2023-03-08" 
-  },
-];
+import { mockRequests } from "@/lib/mock-data";
 
 export default function ShareRequestsPage() {
   const [requests, setRequests] = useState(mockRequests);

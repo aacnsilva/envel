@@ -9,72 +9,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-
-// Mock data for shared envelopes
-const mockSharedWithMe = [
-  {
-    id: 1,
-    envelopeName: "Vacation Fund",
-    ownerName: "Alice Smith",
-    ownerAvatar: "",
-    ownerInitials: "AS",
-    status: "active",
-    sharedDate: "2023-12-15"
-  },
-  {
-    id: 2,
-    envelopeName: "Home Improvement",
-    ownerName: "Bob Johnson",
-    ownerAvatar: "",
-    ownerInitials: "BJ",
-    status: "active",
-    sharedDate: "2023-11-20"
-  }
-];
-
-// Mock data for pending share requests
-const mockPendingRequests = [
-  {
-    id: 1,
-    envelopeName: "Holiday Gifts",
-    ownerName: "Charlie Brown",
-    ownerAvatar: "",
-    ownerInitials: "CB",
-    requestDate: "2024-01-05"
-  },
-  {
-    id: 2,
-    envelopeName: "Emergency Fund",
-    ownerName: "Diana Prince",
-    ownerAvatar: "",
-    ownerInitials: "DP",
-    requestDate: "2024-01-02"
-  }
-];
-
-// Mock data for envelopes I'm sharing
-const mockMySharedEnvelopes = [
-  {
-    id: 1,
-    envelopeName: "Rental Property",
-    sharedWith: [
-      { name: "Frank Miller", avatar: "", initials: "FM", status: "active" },
-      { name: "Grace Lee", avatar: "", initials: "GL", status: "active" }
-    ]
-  },
-  {
-    id: 2,
-    envelopeName: "Family Vacation",
-    sharedWith: [
-      { name: "Hannah Smith", avatar: "", initials: "HS", status: "active" },
-      { name: "Ian Brown", avatar: "", initials: "IB", status: "pending" }
-    ]
-  }
-];
+import { mockSharedWithMe, mockRequests, mockMySharedEnvelopes } from "@/lib/mock-data";
 
 export default function SharingPage() {
   const [sharedWithMe, setSharedWithMe] = useState(mockSharedWithMe);
-  const [pendingRequests, setPendingRequests] = useState(mockPendingRequests);
+  const [pendingRequests, setPendingRequests] = useState(mockRequests);
   const [mySharedEnvelopes] = useState(mockMySharedEnvelopes);
   const [activeTab, setActiveTab] = useState("shared-with-me");
   const [isLoading, setIsLoading] = useState(false);
@@ -92,15 +31,15 @@ export default function SharingPage() {
         setPendingRequests(pendingRequests.filter(req => req.id !== requestId));
         setSharedWithMe([...sharedWithMe, {
           id: Date.now(),
-          envelopeName: acceptedRequest.envelopeName,
-          ownerName: acceptedRequest.ownerName,
-          ownerAvatar: acceptedRequest.ownerAvatar,
-          ownerInitials: acceptedRequest.ownerInitials,
+          envelopeName: acceptedRequest.envelope_name,
+          ownerName: acceptedRequest.sender_name,
+          ownerAvatar: "",
+          ownerInitials: acceptedRequest.sender_name.slice(0, 2),
           status: "active",
           sharedDate: new Date().toISOString().split('T')[0]
         }]);
         
-        toast.success(`You now have access to "${acceptedRequest.envelopeName}"`);
+        toast.success(`You now have access to "${acceptedRequest.envelope_name}"`);
       }
     } catch (error) {
       console.error("Error accepting share:", error);
@@ -120,7 +59,7 @@ export default function SharingPage() {
       const rejectedRequest = pendingRequests.find(req => req.id === requestId);
       if (rejectedRequest) {
         setPendingRequests(pendingRequests.filter(req => req.id !== requestId));
-        toast.success(`Share request for "${rejectedRequest.envelopeName}" rejected`);
+        toast.success(`Share request for "${rejectedRequest.envelope_name}" rejected`);
       }
     } catch (error) {
       console.error("Error rejecting share:", error);
@@ -218,19 +157,19 @@ export default function SharingPage() {
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between">
                       <div>
-                        <CardTitle className="text-base sm:text-lg">{request.envelopeName}</CardTitle>
-                        <CardDescription>From {request.ownerName}</CardDescription>
+                        <CardTitle className="text-base sm:text-lg">{request.envelope_name}</CardTitle>
+                        <CardDescription>From {request.sender_name}</CardDescription>
                       </div>
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage src={request.ownerAvatar} alt={request.ownerName} />
-                        <AvatarFallback>{request.ownerInitials}</AvatarFallback>
-                      </Avatar>
+                      {/* <Avatar className="h-8 w-8">
+                        <AvatarImage src={request.sender_email} alt={request.sender_name} />
+                        <AvatarFallback>{request.sender_name.slice(0, 2)}</AvatarFallback>
+                      </Avatar> */}
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center text-xs text-muted-foreground mb-4">
                       <Clock className="mr-1 h-3 w-3" />
-                      Requested on {request.requestDate}
+                      Requested on {request.created_at}
                     </div>
                     <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-2">
                       <Button 

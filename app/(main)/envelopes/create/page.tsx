@@ -27,20 +27,7 @@ import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-
-// Mock data for categories
-const categories = [
-  { value: "groceries", label: "Groceries" },
-  { value: "utilities", label: "Utilities" },
-  { value: "housing", label: "Housing" },
-  { value: "transportation", label: "Transportation" },
-  { value: "health", label: "Health & Medical" },
-  { value: "entertainment", label: "Entertainment" },
-  { value: "personal", label: "Personal Care" },
-  { value: "education", label: "Education" },
-  { value: "savings", label: "Savings" },
-  { value: "gifts", label: "Gifts & Donations" },
-];
+import { mockCategories } from "@/lib/mock-data";
 
 export default function CreateEnvelopePage() {
   const router = useRouter();
@@ -159,7 +146,7 @@ export default function CreateEnvelopePage() {
                       className="w-full justify-between"
                     >
                       {category
-                        ? categories.find((cat) => cat.value === category)?.label
+                        ? mockCategories.find((cat) => cat.id === parseInt(category))?.name
                         : "Select category..."}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
@@ -169,16 +156,16 @@ export default function CreateEnvelopePage() {
                       <CommandInput placeholder="Search categories..." />
                       <CommandEmpty>No category found.</CommandEmpty>
                       <CommandGroup className="max-h-60 overflow-auto">
-                        {categories.map((cat) => (
+                        {mockCategories.map((cat) => (
                           <CommandItem
-                            key={cat.value}
-                            value={cat.value}
+                            key={cat.id}
+                            value={cat.id.toString()}
                             onSelect={(currentValue: string) => {
                               setCategory(currentValue === category ? "" : currentValue);
                               setIsOpen(false);
                             }}
                           >
-                            {cat.label}
+                            {cat.name}
                           </CommandItem>
                         ))}
                       </CommandGroup>

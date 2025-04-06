@@ -10,62 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-// Mock data for shared envelopes - would come from API in real app
-const mockSharedEnvelopes = [
-  { 
-    id: 1, 
-    name: "Family Groceries",
-    recurring: true,
-    owner: {
-      name: "Jane Doe",
-      email: "jane@example.com",
-      image: null
-    },
-    amounts: [
-      { id: 1, amount: 800, date: new Date("2025-03-01") },
-      { id: 2, amount: 850, date: new Date("2025-04-01") },
-    ]
-  },
-  { 
-    id: 2, 
-    name: "Vacation Fund",
-    recurring: false,
-    owner: {
-      name: "John Smith",
-      email: "john@example.com",
-      image: null
-    },
-    amounts: [
-      { id: 3, amount: 1200, date: new Date("2025-03-01") },
-      { id: 4, amount: 1500, date: new Date("2025-04-01") },
-    ]
-  },
-  { 
-    id: 3, 
-    name: "Household Expenses",
-    recurring: true,
-    owner: {
-      name: "Mark Wilson",
-      email: "mark@example.com",
-      image: null
-    },
-    amounts: [
-      { id: 5, amount: 600, date: new Date("2025-03-01") },
-      { id: 6, amount: 620, date: new Date("2025-04-01") },
-    ]
-  },
-];
-
-// Mock used amounts - would be calculated from entries in a real app
-const mockUsedAmounts = [
-  { envelopeId: 1, date: new Date("2025-03-01"), used: 450 },
-  { envelopeId: 1, date: new Date("2025-04-01"), used: 200 },
-  { envelopeId: 2, date: new Date("2025-03-01"), used: 200 },
-  { envelopeId: 2, date: new Date("2025-04-01"), used: 300 },
-  { envelopeId: 3, date: new Date("2025-03-01"), used: 300 },
-  { envelopeId: 3, date: new Date("2025-04-01"), used: 150 },
-];
+import { mockSharedEnvelopes, mockUsedAmounts } from "@/lib/mock-data";
 
 export default function SharedWithMePage() {
   const [currentMonth] = useState(new Date());

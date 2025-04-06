@@ -1,5 +1,6 @@
 "use client";
 
+import { mockCategories } from "@/lib/mock-data";
 import { useState } from "react";
 import { PlusCircle, PencilIcon, TrashIcon } from "lucide-react";
 
@@ -27,18 +28,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-
-// Mock categories - would come from API in real app
-const mockCategories = [
-  { id: 1, name: "Groceries", description: "Food and household supplies" },
-  { id: 2, name: "Utilities", description: "Electricity, water, gas, etc." },
-  { id: 3, name: "Dining Out", description: "Restaurants and cafes" },
-  { id: 4, name: "Entertainment", description: "Movies, concerts, events" },
-  { id: 5, name: "Transportation", description: "Gas, public transit, rideshares" },
-  { id: 6, name: "Shopping", description: "Clothes, electronics, etc." },
-  { id: 7, name: "Healthcare", description: "Doctor visits, medicine, etc." },
-  { id: 8, name: "Personal Care", description: "Haircuts, gym, etc." },
-];
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState(mockCategories);

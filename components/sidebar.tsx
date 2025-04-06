@@ -19,6 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { mainNavItems, sharingNavItems } from "@/lib/navigation";
+import { mockUser } from "@/lib/mock-data";
 
 interface SidebarProps {
   children?: ReactNode;
@@ -55,13 +56,6 @@ export const Sidebar = ({ children }: SidebarProps) => {
     });
     window.dispatchEvent(event);
   }, [isCollapsed]);
-  
-  // Mock user data - this would come from auth in real app
-  const user = {
-    name: "User",
-    email: "user@example.com",
-    image: null,
-  };
   
   const isActive = (path: string) => {
     if (path === "/dashboard" && pathname === "/dashboard") {
@@ -164,7 +158,7 @@ export const Sidebar = ({ children }: SidebarProps) => {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-9 w-9 rounded-full p-0">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.image || ""} alt={user.name} />
+                    <AvatarImage src={mockUser.image || ""} alt={mockUser.name} />
                     <AvatarFallback className="bg-primary/10">
                       <UserCircle className="h-5 w-5 text-primary" />
                     </AvatarFallback>
@@ -173,8 +167,8 @@ export const Sidebar = ({ children }: SidebarProps) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <div className="flex flex-col space-y-1 p-2">
-                  <p className="text-sm font-medium">{user.name}</p>
-                  <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                  <p className="text-sm font-medium">{mockUser.name}</p>
+                  <p className="text-xs text-muted-foreground truncate">{mockUser.email}</p>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
@@ -199,8 +193,8 @@ export const Sidebar = ({ children }: SidebarProps) => {
             
             {!isCollapsed && (
               <div className="flex flex-col">
-                <p className="text-sm font-medium truncate">{user.name}</p>
-                <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                <p className="text-sm font-medium truncate">{mockUser.name}</p>
+                <p className="text-xs text-muted-foreground truncate">{mockUser.email}</p>
               </div>
             )}
           </div>
